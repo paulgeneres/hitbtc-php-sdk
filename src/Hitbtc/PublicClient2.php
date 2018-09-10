@@ -28,6 +28,16 @@ class PublicClient2
         return $this->httpClient;
     }
 
+    public function getCurrencies()
+    {
+        return json_decode($this->getHttpClient()->get('/api/2/public/currency')->getBody(), true);
+    }
+
+    public function getSymbols()
+    {
+        return json_decode($this->getHttpClient()->get('/api/2/public/symbol')->getBody(), true);
+    }
+
     public function getTicker($ticker)
     {
         return json_decode($this->getHttpClient()->get('/api/2/public/ticker/'.$ticker)->getBody(), true);
@@ -50,7 +60,7 @@ class PublicClient2
         if ($period) $params[] = "period={$period}";
         $params = implode('&', $params);
         if ($params) $params = "?{$params}";
-        
+
         return json_decode($this->getHttpClient()->get('/api/2/public/candles/'.$ticker.$params)->getBody(), true);
     }
 }
