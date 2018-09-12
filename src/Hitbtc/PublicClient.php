@@ -37,7 +37,6 @@ class PublicClient
         return json_decode($this->getHttpClient()->get('/api/1/public/'.$ticker.'/ticker')->getBody(), true);
     }
 
-
     public function getTickers()
     {
         return json_decode($this->getHttpClient()->get('/api/1/public/ticker')->getBody(), true);
