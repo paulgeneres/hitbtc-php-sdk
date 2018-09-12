@@ -28,39 +28,102 @@ class PublicClient2
         return $this->httpClient;
     }
 
-    public function getCurrencies()
-    {
-        return json_decode($this->getHttpClient()->get('/api/2/public/currency')->getBody(), true);
-    }
-
+    /**
+     * @return mixed
+     */
     public function getSymbols()
     {
         return json_decode($this->getHttpClient()->get('/api/2/public/symbol')->getBody(), true);
     }
 
-    public function getTicker($ticker)
+    /**
+     * @param $symbol
+     * @return mixed
+     */
+    public function getSymbol($symbol)
     {
-        return json_decode($this->getHttpClient()->get('/api/2/public/ticker/'.$ticker)->getBody(), true);
+        return json_decode($this->getHttpClient()->get('/api/2/public/symbol/'.$symbol)->getBody(), true);
     }
 
+    /**
+     * @return mixed
+     */
+    public function getCurrencies()
+    {
+        return json_decode($this->getHttpClient()->get('/api/2/public/currency')->getBody(), true);
+    }
+
+    /**
+     * @param $symbol
+     * @return mixed
+     */
+    public function getCurrency($symbol)
+    {
+        return json_decode($this->getHttpClient()->get('/api/2/public/currency/'.$symbol)->getBody(), true);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getTickers()
     {
         return json_decode($this->getHttpClient()->get('/api/2/public/ticker')->getBody(), true);
     }
 
-    public function getOrderBook($ticker)
+    /**
+     * @param $symbol
+     * @return mixed
+     */
+    public function getTicker($symbol)
     {
-        return json_decode($this->getHttpClient()->get('/api/2/public/orderbook/'.$ticker)->getBody(), true);
+        return json_decode($this->getHttpClient()->get('/api/2/public/ticker/'.$symbol)->getBody(), true);
     }
 
-    public function getCandles($ticker, $limit=null, $period=null)
+    /**
+     * @param $symbol
+     * @param null $sort 'ASC' | 'DESC'
+     * @param null $by 'id' | 'timestamp'
+     * @param null $from
+     * @param null $till
+     * @param null $limit
+     * @param null $offset
+     * @return mixed
+     */
+    public function getTrades($symbol, $sort=NULL, $by=NULL, $from=NULL, $till=NULL, $limit=NULL, $offset=NULL)
     {
-        $params = [];
-        if ($limit) $params[] = "limit={$limit}";
-        if ($period) $params[] = "period={$period}";
-        $params = implode('&', $params);
-        if ($params) $params = "?{$params}";
+        $options = [];
+        if ($sort   !== NULL) $options['query']['sort']   = $sort;
+        if ($by     !== NULL) $options['query']['by']     = $by;
+        if ($from   !== NULL) $options['query']['from']   = $from;
+        if ($till   !== NULL) $options['query']['till']   = $till;
+        if ($limit  !== NULL) $options['query']['limit']  = $limit;
+        if ($offset !== NULL) $options['query']['offset'] = $offset;
+        return json_decode($this->getHttpClient()->get('/api/2/public/trades/'.$symbol, $options)->getBody(), true);
+    }
 
-        return json_decode($this->getHttpClient()->get('/api/2/public/candles/'.$ticker.$params)->getBody(), true);
+    /**
+     * @param $symbol
+     * @param null $limit
+     * @return mixed
+     */
+    public function getOrderBook($symbol, $limit=NULL)
+    {
+        $options = [];
+        if ($limit !== NULL) $options['query']['limit'] = $limit;
+        return json_decode($this->getHttpClient()->get('/api/2/public/orderbook/'.$symbol, $options)->getBody(), true);
+    }
+
+    /**
+     * @param $symbol
+     * @param null $limit
+     * @param null $period
+     * @return mixed
+     */
+    public function getCandles($symbol, $limit=NULL, $period=NULL)
+    {
+        $options = [];
+        if ($limit  !== NULL) $options['query']['limit'] = $limit;
+        if ($period  !== NULL) $options['query']['period'] = $period;
+        return json_decode($this->getHttpClient()->get('/api/2/public/candles/'.$symbol, $options)->getBody(), true);
     }
 }
