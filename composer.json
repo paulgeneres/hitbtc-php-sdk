@@ -11,12 +11,14 @@
     ],
     "require": {
         "ext-json": "*",
-        "guzzlehttp/guzzle": "6.x"
+        "guzzlehttp/guzzle": "^7.0"
     },
     "autoload": {
-        "psr-0": {"Hitbtc": "src/"}
+        "psr-4": {
+            "Hitbtc\\": "src/Hitbtc/"
+        }
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.4@dev"
+        "phpunit/phpunit": "^9.0"
     }
 }

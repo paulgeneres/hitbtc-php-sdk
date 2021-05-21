@@ -31,23 +31,6 @@ class PublicClient2
     /**
      * @return mixed
      */
-    public function getSymbols()
-    {
-        return json_decode($this->getHttpClient()->get('/api/2/public/symbol')->getBody(), true);
-    }
-
-    /**
-     * @param $symbol
-     * @return mixed
-     */
-    public function getSymbol($symbol)
-    {
-        return json_decode($this->getHttpClient()->get('/api/2/public/symbol/'.$symbol)->getBody(), true);
-    }
-
-    /**
-     * @return mixed
-     */
     public function getCurrencies()
     {
         return json_decode($this->getHttpClient()->get('/api/2/public/currency')->getBody(), true);
@@ -60,6 +43,23 @@ class PublicClient2
     public function getCurrency($symbol)
     {
         return json_decode($this->getHttpClient()->get('/api/2/public/currency/'.$symbol)->getBody(), true);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSymbols()
+    {
+        return json_decode($this->getHttpClient()->get('/api/2/public/symbol')->getBody(), true);
+    }
+
+    /**
+     * @param $symbol
+     * @return mixed
+     */
+    public function getSymbol($symbol)
+    {
+        return json_decode($this->getHttpClient()->get('/api/2/public/symbol/'.$symbol)->getBody(), true);
     }
 
     /**
@@ -124,6 +124,7 @@ class PublicClient2
         $options = [];
         if ($limit  !== NULL) $options['query']['limit'] = $limit;
         if ($period  !== NULL) $options['query']['period'] = $period;
+		$options['query']['sort'] = 'DESC';
         return json_decode($this->getHttpClient()->get('/api/2/public/candles/'.$symbol, $options)->getBody(), true);
     }
 }

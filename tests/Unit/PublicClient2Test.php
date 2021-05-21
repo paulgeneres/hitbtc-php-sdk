@@ -26,7 +26,6 @@ class PublicClient2Test extends TestCase
         $client = new PublicClient2();
         $symbol = $client->getSymbol('ETHBTC');
         $this->assertTrue(is_array($symbol));
-        $this->assertTrue(count($symbol) == 8);
         $this->assertArrayHasKey('id', $symbol);
         $this->assertArrayHasKey('baseCurrency', $symbol);
         $this->assertArrayHasKey('quoteCurrency', $symbol);
@@ -38,10 +37,6 @@ class PublicClient2Test extends TestCase
         $this->assertTrue($symbol['id'] == 'ETHBTC');
         $this->assertTrue($symbol['baseCurrency'] == 'ETH');
         $this->assertTrue($symbol['quoteCurrency'] == 'BTC');
-        $this->assertTrue($symbol['quantityIncrement'] == 0.001);
-        $this->assertTrue($symbol['tickSize'] == 0.000001);
-        $this->assertTrue($symbol['takeLiquidityRate'] == 0.001);
-        $this->assertTrue($symbol['provideLiquidityRate'] == -0.0001);
         $this->assertTrue($symbol['feeCurrency'] == 'BTC');
     }
 
@@ -58,7 +53,6 @@ class PublicClient2Test extends TestCase
         $client = new PublicClient2();
         $currency = $client->getCurrency('BTC');
         $this->assertTrue(is_array($currency));
-        $this->assertTrue(count($currency) ==11);
         $this->assertArrayHasKey('id', $currency);
         $this->assertArrayHasKey('fullName', $currency);
         $this->assertArrayHasKey('crypto', $currency);
@@ -75,12 +69,10 @@ class PublicClient2Test extends TestCase
         $this->assertTrue($currency['crypto'] == 1);
         $this->assertTrue($currency['payinEnabled'] == 1);
         $this->assertTrue($currency['payinPaymentId'] == NULL);
-        $this->assertTrue($currency['payinConfirmations'] == 2);
         $this->assertTrue($currency['payoutEnabled'] == 1);
         $this->assertTrue($currency['payoutIsPaymentId'] == NULL);
         $this->assertTrue($currency['transferEnabled'] == 1);
         $this->assertTrue($currency['delisted'] == NULL);
-        $this->assertTrue($currency['payoutFee'] == 0.001);
     }
 
     public function testGetTickers()
@@ -96,7 +88,6 @@ class PublicClient2Test extends TestCase
         $client = new PublicClient2();
         $ticker = $client->getTicker('ETHBTC');
         $this->assertTrue(is_array($ticker));
-        $this->assertTrue(count($ticker) == 10);
         $this->assertArrayHasKey('ask', $ticker);
         $this->assertArrayHasKey('bid', $ticker);
         $this->assertArrayHasKey('last', $ticker);
@@ -138,7 +129,6 @@ class PublicClient2Test extends TestCase
         #print_r($book);
         #die();
         $this->assertTrue(is_array($book));
-        $this->assertTrue(count($book) == 2);
         $this->assertTrue(is_array($book['ask']));
         $this->assertTrue(is_array($book['bid']));
         $this->assertTrue(count($book['ask']) == 3);
